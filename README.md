@@ -28,7 +28,7 @@ Bundle your **app.js** file for using it in the browser
 webpack src/app.js -o public/app.bundled.js
 ```
 The script file **app.bundled.js** is generated in *cmmn-js/public*.    
-Now you can open **index.html** in */cmmn-js/public* with a browser.
+Now you can run cmmn-js by opening **index.html** in */cmmn-js/public* with a browser.
 
 
 ## License
