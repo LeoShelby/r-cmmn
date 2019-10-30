@@ -23,12 +23,13 @@ npm install webpack-cli
 npm install webpack-jquery-ui
 ```
 ## Bundle & Run
-Bundle your **app.js** in *cmmn-js-thesis/src* file for using it in the browser
+Bundle **app.js** file in *cmmn-js-thesis/src* for using it in the browser
 ```
 webpack src/app.js -o public/app.bundled.js
 ```
-The script file **app.bundled.js** is generated in *cmmn-js-thesis/public*.    
-Now you can run cmmn-js by opening **index.html** in *cmmn-js-thesis/public* with a browser.
+The script file **app.bundled.js** is generated in *cmmn-js-thesis/public*.
+<br/>
+Now you can run cmmn-js by opening in *cmmn-js-thesis/public/ **index.html*** with a browser.
 
 
 ## License
