@@ -1,0 +1,177 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?ugsiqx');
+  src:  url('fonts/icomoon.eot?ugsiqx#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?ugsiqx') format('truetype'),
+    url('fonts/icomoon.woff?ugsiqx') format('woff'),
+    url('fonts/icomoon.svg?ugsiqx#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-event_error_listener:before {
+  content: "\e906";
+}
+.icon-milestone-dashed:before {
+  content: "\e907";
+}
+.icon-stage-dashed:before {
+  content: "\e908";
+}
+.icon-case-file-item-dashed:before {
+  content: "\e909";
+}
+.icon-criticality-none:before {
+  content: "\e905";
+}
+.icon-criticality-medium:before {
+  content: "\e904";
+}
+.icon-criticality-low:before {
+  content: "\e903";
+}
+.icon-criticality-high:before {
+  content: "\e902";
+}
+.icon-criticality-critical:before {
+  content: "\e901";
+}
+.icon-criticality-add:before {
+  content: "\e900";
+}
+.icon-bpmn-io:before {
+  content: "\e800";
+}
+.icon-screw-wrench:before {
+  content: "\e801";
+}
+.icon-trash:before {
+  content: "\e802";
+}
+.icon-lasso-tool:before {
+  content: "\e803";
+}
+.icon-space-tool:before {
+  content: "\e804";
+}
+.icon-hand-tool:before {
+  content: "\e805";
+}
+.icon-case-plan-model:before {
+  content: "\e806";
+}
+.icon-stage-expanded:before {
+  content: "\e807";
+}
+.icon-milestone:before {
+  content: "\e808";
+}
+.icon-text-annotation:before {
+  content: "\e809";
+}
+.icon-task:before {
+  content: "\e80a";
+}
+.icon-case-task:before {
+  content: "\e80b";
+}
+.icon-case-task-discretionary:before {
+  content: "\e80c";
+}
+.icon-decision-task:before {
+  content: "\e80d";
+}
+.icon-decision-task-discretionary:before {
+  content: "\e80e";
+}
+.icon-human-blocking-task:before {
+  content: "\e80f";
+}
+.icon-human-blocking-task-discretionary:before {
+  content: "\e810";
+}
+.icon-human-non-blocking-task:before {
+  content: "\e811";
+}
+.icon-human-non-blocking-task-discretionary:before {
+  content: "\e812";
+}
+.icon-process-task:before {
+  content: "\e813";
+}
+.icon-process-task-discretionary:before {
+  content: "\e814";
+}
+.icon-task-discretionary:before {
+  content: "\e815";
+}
+.icon-task-none:before {
+  content: "\e816";
+}
+.icon-entry-criterion:before {
+  content: "\e817";
+}
+.icon-exit-criterion:before {
+  content: "\e818";
+}
+.icon-case-file-item:before {
+  content: "\e819";
+}
+.icon-connection:before {
+  content: "\e81a";
+}
+.icon-event-listener:before {
+  content: "\e81b";
+}
+.icon-timer-event-listener:before {
+  content: "\e81c";
+}
+.icon-user-event-listener:before {
+  content: "\e81d";
+}
+.icon-auto-complete-marker:before {
+  content: "\e81e";
+}
+.icon-manual-activation-marker:before {
+  content: "\e81f";
+}
+.icon-repetition-marker:before {
+  content: "\e820";
+}
+.icon-blocking:before {
+  content: "\e821";
+}
+.icon-required-marker:before {
+  content: "\e822";
+}
+.icon-plan-fragment-collapsed-discretionary:before {
+  content: "\e823";
+}
+.icon-plan-fragment-expanded-discretionary:before {
+  content: "\e824";
+}
+.icon-stage-collapsed:before {
+  content: "\e825";
+}
+.icon-stage-collapsed-discretionary:before {
+  content: "\e826";
+}
+.icon-stage-expanded-discretionary:before {
+  content: "\e827";
+}
