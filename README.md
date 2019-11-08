@@ -15,7 +15,6 @@ sudo apt-get update
 sudo apt-get install build-essential checkinstall libssl-dev
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash 
 nvm install 12.13.0
-
 ```
 
 Install cmmn-js
