@@ -1,7 +1,7 @@
 import CmmnModeler from '../lib/Modeler';
-import customControlsModule from '../cmmn-js-extended/custom_modules';
-var extendedModdle = require('../cmmn-js-extended/custom_moddle/extended.json');
-var CustomButtons = require ('../cmmn-js-extended/level_algorithm/CustomButtons');
+import customControlsModule from '../rcmmn_modules/custom_modules';
+var extendedModdle = require('../rcmmn_modules/custom_moddle/extended.json');
+var CustomButtons = require ('../rcmmn_modules/level_algorithm/CustomButtons');
 
 var modeler = new CmmnModeler({
   keyboard: { bindTo: document },

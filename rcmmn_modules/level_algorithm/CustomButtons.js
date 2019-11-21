@@ -12,7 +12,7 @@ exports.addLevelButton = function (modeler) {
   var levelButton =
     '<button id="levelButton" type="button ' +
        'title="Powered by bpmn.io" ' +
-       'style="position: absolute;  bottom: 120px; left: 20px; z-index: 100; height: 50px;">' +
+       'style="position: absolute;  bottom: 15px; left: 20px; z-index: 100; height: 50px;">' +
        'Check Level'+
     '</button>';
 
@@ -62,7 +62,7 @@ exports.addSaveButton = function (modeler){
 var saveButton =
   '<button id="saveButton" type="button ' +
      'title="" ' +
-     'style="position: absolute; bottom: 60px; left: 20px; z-index: 100;">' +
+     'style="position: absolute; bottom: 15px; right: 100px; z-index: 100;">' +
      'Save Diagram'+
   '</button>';
 
@@ -88,7 +88,7 @@ var saveButton =
 exports.addLoadButton = function (modeler){
 
 
-  var loadButton = '<label id="labelLoad" for="inputLoad" style="position: absolute; bottom: 60px; left: 180px; z-index: 100;">'+
+  var loadButton = '<label id="labelLoad" for="inputLoad" style="position: absolute; bottom: 15px; right: 250px; z-index: 100;">'+
                     'Load Diagram'+
                     '<input type="file" id="inputLoad" style="display:none"></label>';
 
