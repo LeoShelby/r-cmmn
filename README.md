@@ -17,7 +17,7 @@ npm install
 npm run build
 npm run [linux|windows|macOS]
 ```
-In the case you get some error, here it is guide for manually bundling and running the project 
+In the case you get some errors, here it is [guide](./rcmmn_modules/guide_manual.md) for manually bundling and running the project.
 
 ## License
 
