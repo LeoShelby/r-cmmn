@@ -5,7 +5,7 @@ The project is developed as an extension of the open-source tool cmmn-js: https:
 
 ## Requirements
 
-The [latest versions](./rcmmn_modules/guide_node.md) of **nodejs** and **npm** are needed. 
+The [latest versions](./rcmmn_modules/guide_node.md) of **nodejs** and **npm** are needed.   
 For running the tool, latest version of Chrome is recommended, altough it is possibile to use also Firefox and Edge.
 
 ## Build and Run
