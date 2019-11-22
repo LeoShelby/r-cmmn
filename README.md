@@ -1,54 +1,23 @@
-# cmmn-js-extended
+# R-CMMN
 
-Extension for cmmn-js : https://bpmn.io/toolkit/cmmn-js
+Tool for Modeling Resilient-Aware CMMN Processes.  
+The project is developed as an extension of the open-source tool cmmn-js: https://bpmn.io/toolkit/cmmn-js
 
-## Installation
+## Requirements
 
-First of all you need to have installed the latest versions of **nodejs** and **npm**
+The latest versions of **nodejs** and **npm** are needed.  
+For running the tool, latest version of Chrome is recommended, altough it is possibile to use also Firefox and Edge.
+
+## Build and Run
+
+Perform the following steps to build the library, and running the tool on your default browser (the argument of the last command depends on your operative system)
 ```
-sudo apt-get install nodejs
-sudo apt-get install nodejs-legacy
-sudo apt-get install npm
-
-
-sudo apt-get update
-sudo apt-get install build-essential checkinstall libssl-dev
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash 
-nvm install 12.13.0
-```
-
-Install cmmn-js
-```
+cd r-cmmn
 npm install
+npm run build
+npm run [linux|windows|macOS]
 ```
-Install node modules needed for cmmn-js-extended
-```
-npm install file-saver
-npm install prettify-xml
-npm install xml2js
-```
-
-Install node modules for bundling JS code
-
-```
-npm install -g webpack
-npm install -g webpack-cli
-
-npm install webpack
-npm install webpack-cli
-npm install webpack-jquery-ui
-```
-## Bundle & Run
-Bundle **app.js** file in *cmmn-js-thesis/src* for using it in the browser
-```
-webpack src/app.js -o public/app.bundled.js
-```
-The script file **app.bundled.js** is generated in *cmmn-js-thesis/public*.  
-<br/>
-Now you can run cmmn-js by opening *cmmn-js-thesis/public/**index.html*** with a browser.
-</br>
-Use the **latest version** of Chrome or Firefox.
-
+In the case you get some error, here it is guide for manually bundling and running the project 
 
 ## License
 
