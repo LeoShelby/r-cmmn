@@ -26,6 +26,10 @@ var PlanItemDefinitionUtil = require('../../lib/features/modeling/util/PlanItemD
     getDirectItemCapables = PlanItemDefinitionUtil.getDirectItemCapables,
     isHumanTask = PlanItemDefinitionUtil.isHumanTask;
 
+var $ = require("jquery");
+require('webpack-jquery-ui');
+require('webpack-jquery-ui/css');
+
 const PRIORITY = 1200;
 
 /**
@@ -139,24 +143,28 @@ function CustomAssociationLabelManager(eventBus, modeling, elementRegistry) {
     
     if(isAlternativeCaseFileItem(context.target)){
         if(isCaseFileItem(context.source)){
-            updateChainValues(context.target, 'cmmn:AlternativeCaseFileItem', 0, modeling, elementRegistry);
+            var flag = updateChainValues(context.target, 'cmmn:AlternativeCaseFileItem', 0, modeling, elementRegistry);
+            if(flag) createWarning();
         }
         //is an alternative
         else{
             var chainValuePred = getChainValue(context.source);
-            updateChainValues(context.target, 'cmmn:AlternativeCaseFileItem', chainValuePred, modeling, elementRegistry);
+            var flag = updateChainValues(context.target, 'cmmn:AlternativeCaseFileItem', chainValuePred, modeling, elementRegistry);
+            if(flag) createWarning();
         }
     }
 
 
     if(isAlternativeMilestone(context.target)){
         if(isMilestone(context.source)){
-            updateChainValues(context.target, 'cmmn:PlanItem', 0, modeling, elementRegistry);
+            var flag = updateChainValues(context.target, 'cmmn:PlanItem', 0, modeling, elementRegistry);
+            if(flag) createWarning();
         }
         //is an alternative
         else{
             var chainValuePred = getChainValue(context.source);
-            updateChainValues(context.target, 'cmmn:PlanItem', chainValuePred, modeling, elementRegistry);
+            var flag = updateChainValues(context.target, 'cmmn:PlanItem', chainValuePred, modeling, elementRegistry);
+            if(flag) createWarning();
         }
     }
 
@@ -375,15 +383,67 @@ function updateChainValues(element, type, value, modeling, elementRegistry){
     //modeling.updateSemanticParent(element, element.businessObject.$parent);
     modeling.updateProperties(element.businessObject.definitionRef, {chainValue: newValue}, element);
 
-    //an AlternativeCaseFileItem can have at most two outgoing connections
-    //one with another AlternativeCaseFileItem and one with an ErrorEventListener
+    /*
     element.outgoing.forEach(function(out){
         if(out.businessObject.cmmnElementRef.$type == 'cmmn:Connection'){
             if(out.businessObject.cmmnElementRef.targetRef.$type == type){
                 var id = out.businessObject.cmmnElementRef.targetRef.id;
                 var chainElement = elementRegistry.get(id);
-                updateChainValues(chainElement, type, newValue, modeling, elementRegistry);
+                return updateChainValues(chainElement, type, newValue, modeling, elementRegistry);
             }
         }
     });
+    */
+
+    //an AlternativeCaseFileItem can have at most two outgoing connections
+    //one with another AlternativeCaseFileItem and one with an ErrorEventListener
+
+    //we need to use this approach in order to able to exploit recursion in order to know if
+    //during the updates of the chain we are over chainValue of 9
+
+    var out;
+    if(element.outgoing[0]){
+        out = element.outgoing[0];
+        if(out.businessObject.cmmnElementRef.$type == 'cmmn:Connection'){
+            if(out.businessObject.cmmnElementRef.targetRef.$type == type){
+                var id = out.businessObject.cmmnElementRef.targetRef.id;
+                var chainElement = elementRegistry.get(id);
+                return updateChainValues(chainElement, type, newValue, modeling, elementRegistry);
+            }
+        }
+    }
+    if(element.outgoing[1]){
+        out = element.outgoing[1];
+        if(out.businessObject.cmmnElementRef.$type == 'cmmn:Connection'){
+            if(out.businessObject.cmmnElementRef.targetRef.$type == type){
+                var id = out.businessObject.cmmnElementRef.targetRef.id;
+                var chainElement = elementRegistry.get(id);
+                return updateChainValues(chainElement, type, newValue, modeling, elementRegistry);
+            }
+        }
+    }
+
+    if(value >= 9){
+        return true;
+    } 
+    else {
+        return false;
+    } 
+}
+
+function createWarning(){
+    var levelDialog = '<div id="dialog" title="Warning">'+ '\n' + 
+        'The current version of this software does not support Chains of Alternative CasefileItem/Milestone longer than 9.'+'</div>';
+        $('#canvas').append(levelDialog);
+        $("#dialog").css("white-space","pre-wrap");
+        $("#dialog").dialog({
+          modal: true, 
+          height: 'auto',
+          width: '450px',
+          buttons: {
+            "Got it": function() {
+                $(this).dialog('close');
+            }
+          }, 
+          create: function(){}});
 }

@@ -41,15 +41,22 @@ exports.addLevelButton = function (modeler) {
       })
       
       p.then(function(result){
-        
-        
-        var levelDialog = '<div id="dialog" title="Resilience Level">'+ '\n' + result + '</div>';
+
+        var h = getHeight(result);
+
+        var levelDialog = '<div id="dialog" title="Resilience Level">'+ '\n' + result  +'</div>';
         $('#canvas').append(levelDialog);
         $("#dialog").css("white-space","pre-wrap");
-        $("#dialog").dialog({modal: true, width: 'auto', create: function(){$(this).css("minWidth", "250px");}});
-        
-
-        //console.log(result);
+        $("#dialog").dialog({
+          modal: true, 
+          height: h,
+          width: 'auto',
+          buttons: {
+            "Got it": function() {
+                $(this).dialog('close');
+            }
+          }, 
+          create: function(){$(this).css("minWidth", "250px");}});
       });
 
     });
@@ -126,4 +133,14 @@ exports.addLoadButton = function (modeler){
     };
     reader.readAsText(file);
   });
+}
+
+
+function getHeight(result){
+  if(result.includes("Warning")) return '420';
+  else{
+    var arr = result.match(/100/gi) || [];
+    if(arr.length == 4) return '280';
+    else return '420';
+  }
 }

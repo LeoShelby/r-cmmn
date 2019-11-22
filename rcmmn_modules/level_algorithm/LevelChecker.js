@@ -6,13 +6,13 @@ exports.checkLevel = function (xml) {
     parseString(xml, function (err, xmlParsed) {
       
       var resLevel1 = checkLevel_1_2(xmlParsed, '1');
-      if(resLevel1 != 'Level 1: OK!') resolve(resLevel1);
+      if(!resLevel1.includes("100%")) resolve(resLevel1);
       
       var resLevel2 = checkLevel_1_2(xmlParsed, '2');
-      if(resLevel2 != 'Level 2: OK!') resolve(resLevel1 + '\n\n' + resLevel2);
+      if(!resLevel2.includes("100%")) resolve(resLevel1 + '\n\n' + resLevel2);
 
       var resLevel3 = checkLevel3(xmlParsed);
-      if(resLevel3 != 'Level 3: OK!') resolve(resLevel1 + '\n\n' + resLevel2 + '\n\n' + resLevel3);
+      if(!resLevel3.includes("100%")) resolve(resLevel1 + '\n\n' + resLevel2 + '\n\n' + resLevel3);
       
       var resLevel4 = checkLevel4(xmlParsed);
       resolve(resLevel1 + '\n\n' + resLevel2 + '\n\n' + resLevel3 + '\n\n' + resLevel4);
@@ -35,7 +35,7 @@ function checkLevel_1_2(xmlParsed, level){
   var connections =  definitions['cmmn:connection'] || [];
   var caseFileItemDefinitions = definitions['cmmn:caseFileItemDefinition'] || [];
 
-  var data = {"num":0, "den":0, "info":'',"noNamedCaseFileItems":0};
+  var data = {"num":0, "den":0, "info":'',"noNamedCaseFileItems":0,"warning_chain": false, "warning_label": false};
 
   //for each 'cmmn:case' tag, inside we have:
   // - cmmn:CaseFileModel
@@ -43,7 +43,7 @@ function checkLevel_1_2(xmlParsed, level){
   cases.forEach(function(cas) {
     var caseFileModel = cas['cmmn:caseFileModel'] || [] ;
     if(caseFileModel['0']){
-      var caseFileItems = caseFileModel['0']['cmmn:caseFileItem'];
+      var caseFileItems = caseFileModel['0']['cmmn:caseFileItem'] || [];
       checkCaseFileItemConnections(level,caseFileItems,caseFileItemDefinitions,connections,data);
     }  
   });
@@ -53,24 +53,41 @@ function checkLevel_1_2(xmlParsed, level){
   num = data['num'];
   den = data['den'];
   if(level == '1'){
-    info = 'CaseFileItems with criticatility > 0 without a direct connection to Task/EventListener:\n' + data['info'];
+    info = '\tThe following CaseFileItems, having a non-null criticality, are not connected to any Task or EventListener:\n' + data['info'];
   }
   else{
-    info = 'CaseFileItems with criticatility > 0 and directly connected to Task/EventListener without an AlternativeCaseFileItem defined:\n' + data['info'];
+    info = '\tThe following CaseFileItems, having a non-null criticality, are not associated to an Alternative CaseFileItem:\n' + data['info'];
   }
   noNamedCaseFileItems = data['noNamedCaseFileItems'];
 
-  if((num == 0 && den == 0) || num == den) result = 'Level ' + level + ': OK!';
+
+  if(data["warning_label"]){
+    warning = '\n\n\t<font color="orange">Warning:</font>\n\n';
+    warning += '\tThere are connections from CaseFileItem to Task/EventListener not properly labeled with one of the allowed operations:\n\n'
+    warning += '\t\t[read, create, update, delete, replace]\n';
+  }
+
+
+  if((num == 0 && den == 0) || num == den){
+    result = '<strong>Level ' + level + ':</strong> <font color="green">100%</font>';
+    if(data["warning_label"]) result += warning;
+  }
   else{
     var percentage = (100*num/den).toFixed(2);
     if(noNamedCaseFileItems != 0){
       var element = 'CaseFileItem';
       if(noNamedCaseFileItems > 1) element += 's';
-      info += '\n- ' + noNamedCaseFileItems + ' ' + element + ' without a defined name';
+      info += '\n\t\t<strong>-</strong> ' + noNamedCaseFileItems + ' ' + element + ' without a defined name';
     } 
-    result = 'Compliance percentage of Level ' + level + ':\n\n'+percentage +'%\n\n';
-    result += info +'\n\n';
+    result = '<strong>Level ' + level + ':</strong> '+ '<font color="red">' + percentage +'%</font>\n\n';
+    result += '\t'+ "<font color='red'>What's missing?</font>\n\n" + info +'\n';
+    if(data["warning_label"]) result += warning;
+    result+="\n\n";
+    if(level == '1') result += "<strong>Level 2:</strong> waiting for Level " + level + " completion\n\n";
+    result += "<strong>Level 3:</strong> waiting for Level " + level + " completion\n\n";
+    result += "<strong>Level 4:</strong> waiting for Level " + level + " completion\n\n";
   }
+
   return result;
 
 }
@@ -97,6 +114,11 @@ function checkCaseFileItemConnections(level, caseFileItems, caseFileItemDefiniti
             if(connection['$'].sourceRef == id){
               if(connection['$'].targetRef.split("_")[0] == target){
                 flag = true;
+                if(connection['$'].name){
+                  if(!allowedLabel(connection['$'].name)){
+                    data["warning_label"] = true;
+                  }
+                }
                 return;
               }
             }
@@ -110,7 +132,7 @@ function checkCaseFileItemConnections(level, caseFileItems, caseFileItemDefiniti
           }
           else{
             var name = caseFileItemDefinition['$'].name || '';
-            if(name != '') data['info'] += '\n- ' + name;
+            if(name != '') data['info'] += '\n\t\t<strong>-</strong> ' + name+'\n';
             else data['noNamedCaseFileItems'] += 1;
           }
         }
@@ -151,19 +173,20 @@ function checkLevel3(xmlParsed){
 
   num = data['num'];
   den = data['den'];
-  info = 'Milestones with criticatility > 0 without an Alternative Milestone defined:\n' + data['info'];
+  info = '\tThe following Milestones, having a non-null criticality, are not associated to an Alternative Milestone:\n' + data['info'];
   noNamedMilestones = data['noNamedMilestones'];
 
-  if((num == 0 && den == 0) || num == den) result = 'Level 3: OK!'
+  if((num == 0 && den == 0) || num == den) result = '<strong>Level 3:</strong> <font color="green">100%</font>'
   else{
     var percentage = (100*num/den).toFixed(2);
     if(noNamedMilestones != 0){
       var element = 'Milestone';
       if(noNamedMilestones > 1) element += 's';
-      info += '\n- ' + noNamedMilestones + ' ' + element + ' without a defined name';
+      info += '\n\t\t<strong>-</strong> ' + noNamedMilestones + ' ' + element + ' without a defined name';
     }
-    result = 'Compliance percentage of Level 3:\n\n'+percentage +'%\n\n';
-    result += info +'\n\n';
+    result = '<strong>Level 3:</strong> '+ '<font color="red">' + percentage + '%</font>\n\n';
+    result += '\t'+ "<font color='red'>What's missing?</font>\n\n" + info +'\n\n\n';
+    result += "<strong>Level 4:</strong> waiting for Level 3 completition\n\n"
   }
   return result;
 
@@ -216,7 +239,7 @@ function checkMilestones(milestones,planItems,planFragments,connections, data){
       }
       else{
         var name = milestone['$'].name || '';
-        if(name != '') data['info'] += '\n- ' + name;
+        if(name != '') data['info'] += '\n\t\t<strong>-</strong> ' + name;
         else data['noNamedMilestones'] += 1;
       }
       
@@ -279,22 +302,22 @@ function checkLevel4(xmlParsed){
 
   num = data['num'];
   den = data['den'];
-  info = 'AlternativeCaseFileItems with criticatility > 0 without a properly defined RecoveryStage:\n' + data['info'];
+  info = '\tThe following Alternative CaseFileItems, having a non-null criticality, are not associated to a RecoveryStage:\n' + data['info'];
   noNamedAlternativeCaseFileItems = data['noNamedAlternativeCaseFileItems'];
 
-  if((num == 0 && den == 0) || num == den) result = 'Level 4: OK!';
+  if((num == 0 && den == 0) || num == den) result = '<strong>Level 4:</strong> <font color="green">100%</font>';
   else{
     var percentage = (100*num/den).toFixed(2);
     if(noNamedAlternativeCaseFileItems != 0){
       var element = 'AlternativeCaseFileItem';
       if(noNamedAlternativeCaseFileItems > 1) element += 's';
-      info += '\n- ' + noNamedAlternativeCaseFileItems + ' ' + element + ' without a defined name';
+      info += '\n\t\t<strong>-</strong> ' + noNamedAlternativeCaseFileItems + ' ' + element + ' without a defined name';
     }
-    result = 'Compliance percentage of Level 4:\n\n'+percentage +'%\n\n';
-    result += info;
-    result += '\n\nNOTE:\nthe AlternativeCaseFileItems above must be directly connected to an ErrorEventListener,\n'+
-              'such ErrorEventListener must be connected to a RecoveryStage via an EntryCriterion,\n' +
-              'such RecoveryStage must be connected to an (alternative) Milestone via an ExitCriterion.\n\n';
+    result = '<strong>Level 4:</strong> '+ '<font color="red">' + percentage +'%</font>\n\n';
+    result += '\t'+ "<font color='red'>What's missing?</font>\n\n" + info;
+    result += '\n\n\t<font color="blue">How to:</font>\n\n\t\tThe AlternativeCaseFileItems above must be directly connected to an ErrorEventListener,\n'+
+              '\t\tsuch ErrorEventListener must be connected to a RecoveryStage via an EntryCriterion,\n' +
+              '\t\tsuch RecoveryStage must be connected to an (alternative) Milestone via an ExitCriterion.\n\n';
   }
   return result;
 
@@ -336,7 +359,7 @@ function checkAlternativeCaseFileItemConnections(alternativeCaseFileItems,altern
           }
           else{
             var name = alternativeCaseFileItemDefinition['$'].name || '';
-            if(name != '') data['info'] += '\n- ' + name;
+            if(name != '') data['info'] += '\n\t\t<strong>-</strong> ' + name;
             else data['noNamedAlternativeCaseFileItems'] += 1;
           }
         }
@@ -486,7 +509,12 @@ function checkInsidePlanFragment(id_plan_error_listener, planFragments){
 }
 
 
-
+function allowedLabel(label){
+  if(label != 'read' && label != 'create' && label != 'update' && label != 'delete' && label != 'replace' && label != 'predicate on'){
+    return false;
+  }
+  return true;
+}
 
 
 

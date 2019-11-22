@@ -1181,7 +1181,7 @@ function CustomCmmnRenderer(eventBus, styles, pathMap, customPathMap) {
 
       switch(position) {
         case 1:
-          path_name = 'CRITICALITY_CRITICAL';
+          path_name = 'CRITICALITY_CRITICAL'
           break;
         case 2:
           path_name = 'CHAIN_2'
@@ -1224,8 +1224,15 @@ function CustomCmmnRenderer(eventBus, styles, pathMap, customPathMap) {
           path_name = 'CHAIN_9'
           break;
         default:
-          return;
-          path_name = 'CRITICALITY_CRITICAL'
+          path_name = 'CHAIN_DEFAULT';
+          if(isAlternativeCaseFileItem(element)){
+            x = -2.65;
+            y = -1.2;
+          }
+          else{
+            x = -0.9;
+            y = -1.7;
+          }
       } 
 
       var path = customPathMap.getScaledPath(path_name, {
