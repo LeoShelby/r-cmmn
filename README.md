@@ -10,14 +10,15 @@ For running the tool, latest version of Chrome is recommended, altough it is pos
 
 ## Build and Run
 
-Perform the following steps to build the library, and running the tool on your default browser (the argument of the last command depends on your operative system)
+Perform the following steps to build the library, and running the tool on your default browser.  
+Choose the argument of the last command depending on the operative system you are using.
 ```
 cd r-cmmn
 npm install
 npm run build
 npm run [linux|windows|macOS]
 ```
-In the case you get some errors, here it is [guide](./rcmmn_modules/guide_manual.md) for manually bundling and running the project.
+In the case you get some errors, here it is a [guide](./rcmmn_modules/guide_manual.md) for manually bundling and running the project.
 
 ## License
 
