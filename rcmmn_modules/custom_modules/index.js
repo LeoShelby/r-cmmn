@@ -6,7 +6,7 @@ import CustomCmmnRenderer from './CustomCmmnRenderer';
 
 import CustomLabelBehavior from './CustomLabelBehavior';
 
-import CustomAssociationLabelManager from './CustomAssociationLabelManager';
+import GeneralManager from './GeneralManager';
 
 
 
@@ -23,7 +23,7 @@ import CustomCmmnRulesFunctions from './CustomCmmnRulesFunctions';
 
 export default {
   __init__: [ 'contextPadProvider', 'customCmmnRules', 'customElementFactory', 'customCmmnFactory', 'customCmmnRenderer',
-   'customLabelBehavior', 'customAssociationLabelManager', 'customReplaceCriticalityProvider', 'customPathMap','customPaletteProvider',
+   'customLabelBehavior', 'generalManager', 'customReplaceCriticalityProvider', 'customPathMap','customPaletteProvider',
    'customReplaceMenuRecoveryStage'],
 
   contextPadProvider: [ 'type', ContextPadProvider ],
@@ -33,7 +33,7 @@ export default {
   customCmmnFactory: [ 'type', CustomCmmnFactory ],
   customCmmnRenderer: [ 'type', CustomCmmnRenderer ],
   customLabelBehavior: [ 'type', CustomLabelBehavior ],
-  customAssociationLabelManager: [ 'type', CustomAssociationLabelManager ],
+  generalManager: [ 'type', GeneralManager ],
 
   customReplaceCriticalityProvider: [ 'type', CustomReplaceCriticalityProvider ],
 

@@ -517,7 +517,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
 
   if(isAlternativeCaseFileItem(element)){
 
-    if(notHasAltertiveCaseFileItem(element)){
+    if(notHasAltertiveCaseFileItem(element) && hasLabelDefined(element)){
       assign(actions, {
           'append.alternative-case-file-item': {
               group: 'model',
@@ -553,7 +553,7 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
 
   if(isAlternativeMilestone(element)){
 
-    if(notHasAltertiveMilestone(element)){
+    if(notHasAltertiveMilestone(element) && hasLabelDefined(element)){
 
       assign(actions, {
         'append.alternative-milestone': {
@@ -615,6 +615,12 @@ function notHasAltertiveCaseFileItem(element){
       }
     }
   }
+  return true;
+}
+
+function hasLabelDefined(element){
+  if(!element.businessObject.definitionRef.name) return false;
+  if(element.businessObject.definitionRef.name == "") return false;
   return true;
 }
 

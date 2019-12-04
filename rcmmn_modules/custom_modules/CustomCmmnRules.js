@@ -222,7 +222,7 @@ CustomCmmnRules.prototype.init = function() {
         }
     
         if(isAlternativeCaseFileItem(source) && isAlternativeCaseFileItem(target)){
-            if(notHasOutcomingFileItems(source) && notHasIncomingFileItems(target) && 
+            if(notHasOutcomingFileItems(source) && notHasIncomingFileItems(target) && hasLabelDefined(source) &&
                 !isLoop(source,target,elementRegistry,'cmmn:AlternativeCaseFileItem')){
                 return {
                     type: 'cmmn:Connection',
@@ -262,7 +262,7 @@ CustomCmmnRules.prototype.init = function() {
         
 
         if(isAlternativeMilestone(source) && isAlternativeMilestone(target)){
-            if(notHasOutcomingMilestones(source) && notHasIconmingMilestones(target) && 
+            if(notHasOutcomingMilestones(source) && notHasIconmingMilestones(target) && hasLabelDefined(source) &&
                 !isLoop(source,target,elementRegistry,'cmmn:PlanItem')){
                 return {
                     type: 'cmmn:Connection',
@@ -494,6 +494,13 @@ CustomCmmnRules.prototype.init = function() {
         }
         return false;
     }
+    
+	function hasLabelDefined(element){
+        if(!element.businessObject.definitionRef.name) return false;
+        if(element.businessObject.definitionRef.name == "") return false;
+        return true;
+    }
+
 
     function notHasIconmingMilestones(element){
         var incoming = element.incoming;

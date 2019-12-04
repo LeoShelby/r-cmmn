@@ -36,7 +36,7 @@ const PRIORITY = 1200;
  * A handler responsible for adding, moving and deleting sentries.
  * These changes are reflected to the underlying CMMN 1.1 XML.
  */
-function CustomAssociationLabelManager(eventBus, modeling, elementRegistry) {
+function GeneralManager(eventBus, modeling, elementRegistry) {
 
   CommandInterceptor.call(this, eventBus);
 
@@ -193,18 +193,53 @@ function CustomAssociationLabelManager(eventBus, modeling, elementRegistry) {
   });
 
 
+  eventBus.on('element.changed', function(event){
+    var element = event.element;
+    
+    // alternative case file item case
+    if(element.type == 'cmmn:AlternativeCaseFileItem'){
+        if(element.businessObject.definitionRef.name == ""){
+            element.outgoing.forEach(function(out){
+                if(out.businessObject.cmmnElementRef.$type == 'cmmn:Connection'){
+                    if(out.businessObject.cmmnElementRef.targetRef.$type == 'cmmn:AlternativeCaseFileItem'){
+                        modeling.removeConnection(out);
+                    }
+                }
+            });
+        }
+    }
+    
+    // alternative milestone case
+    if(element.type == 'cmmn:PlanItem'){
+        if(element.businessObject.definitionRef.$type == 'cmmn:AlternativeMilestone'){
+            if(element.businessObject.definitionRef.name == ""){
+                element.outgoing.forEach(function(out){
+                    if(out.businessObject.cmmnElementRef.$type == 'cmmn:Connection'){
+                        if(out.businessObject.cmmnElementRef.targetRef.$type == 'cmmn:PlanItem'){
+                            modeling.removeConnection(out);
+                        }
+                    }
+                });
+            }
+        }
+    }
+  });
+
+
+
+
 }
 
 
-CustomAssociationLabelManager.$inject = [
+GeneralManager.$inject = [
   'eventBus',
   'modeling',
   'elementRegistry'
 ];
 
-inherits(CustomAssociationLabelManager, CommandInterceptor);
+inherits(GeneralManager, CommandInterceptor);
 
-module.exports = CustomAssociationLabelManager;
+module.exports = GeneralManager;
 
 function isConnection(element){
     return element.$type == 'cmmn:Connection';
