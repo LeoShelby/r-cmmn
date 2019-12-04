@@ -13,6 +13,7 @@ For running the tool, latest version of Chrome is recommended, altough it is pos
 Perform the following steps to build the library, and running the tool on your default browser.  
 Choose the argument of the last command depending on the operative system you are using.
 ```
+git clone https://github.com/LeoShelby/r-cmmn.git
 cd r-cmmn
 npm install
 npm run build
