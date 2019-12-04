@@ -315,9 +315,9 @@ function checkLevel4(xmlParsed){
     }
     result = '<strong>Level 4:</strong> '+ '<font color="red">' + percentage +'%</font>\n\n';
     result += '\t'+ "<font color='red'>What's missing?</font>\n\n" + info;
-    result += '\n\n\t<font color="blue">How to:</font>\n\n\t\tThe AlternativeCaseFileItems above must be directly connected to an ErrorEventListener,\n'+
-              '\t\tsuch ErrorEventListener must be connected to a RecoveryStage via an EntryCriterion,\n' +
-              '\t\tsuch RecoveryStage must be connected to an (alternative) Milestone via an ExitCriterion.\n\n';
+    result += '\n\n\t<font color="blue">How to:</font>\n\n\t\t<strong>-</strong> The AlternativeCaseFileItems above must be directly connected to an ErrorEventListener.\n'+
+              '\t\t<strong>-</strong> Such ErrorEventListener must be connected to a RecoveryStage via an EntryCriterion.\n' +
+              '\t\t<strong>-</strong> Such RecoveryStage must be connected to an (Alternative) Milestone via an ExitCriterion.\n\n';
   }
   return result;
 
