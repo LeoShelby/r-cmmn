@@ -400,8 +400,14 @@ CustomCmmnRules.prototype.init = function() {
         return element.type == 'cmmn:ExitCriterion';
     }
 
-    function isParentRecoveryStage(element){
-        return element.businessObject.$parent.definitionRef.$type == 'cmmn:RecoveryStage';
+    
+	function isParentRecoveryStage(element){
+        if(element.businessObject.$parent){
+            if(element.businessObject.$parent.definitionRef){   
+                return element.businessObject.$parent.definitionRef.$type == 'cmmn:RecoveryStage';
+            }
+        }
+        return false;
     }
 
 
