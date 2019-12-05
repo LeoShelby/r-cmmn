@@ -115,11 +115,13 @@ CmmnRules.prototype.canAttachCriterion = function(element, target, position, sou
     if(isRecoveryStage(target)){   
         //if the criterion has already a parent it means that you are moving an already existing criterion
         if(element.businessObject.$parent){
-            if(element.businessObject.$parent.definitionRef.id == target.businessObject.definitionRef.id){
-                return true;
-            }
-            else{
-                return false;
+            if(element.businessObject.$parent.definitionRef){
+              if(element.businessObject.$parent.definitionRef.id == target.businessObject.definitionRef.id){
+                  return true;
+              }
+              else{
+                  return false;
+              }
             }
         }
         //otherwise it means the you are creating a new criterion from a contextPad
@@ -129,8 +131,10 @@ CmmnRules.prototype.canAttachCriterion = function(element, target, position, sou
     }
 
     if(element.businessObject.$parent){
-      if(element.businessObject.$parent.definitionRef.$type == 'cmmn:RecoveryStage'){
-        return false;
+      if(element.businessObject.$parent.definitionRef){
+        if(element.businessObject.$parent.definitionRef.$type == 'cmmn:RecoveryStage'){
+          return false;
+        }
       }
     }
 
