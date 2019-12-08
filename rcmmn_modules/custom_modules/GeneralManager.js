@@ -414,28 +414,20 @@ function getChainValue(element){
 function updateChainValues(element, type, value, modeling, elementRegistry){
     var newValue = value + 1;
     
-    //element.businessObject.definitionRef.chainValue =  newValue;
-    //modeling.updateSemanticParent(element, element.businessObject.$parent);
     modeling.updateProperties(element.businessObject.definitionRef, {chainValue: newValue}, element);
 
-    /*
-    element.outgoing.forEach(function(out){
-        if(out.businessObject.cmmnElementRef.$type == 'cmmn:Connection'){
-            if(out.businessObject.cmmnElementRef.targetRef.$type == type){
-                var id = out.businessObject.cmmnElementRef.targetRef.id;
+    var out = element.outgoing;
+    for(let i = 0; i < out.length; i++){
+        if(out[i].businessObject.cmmnElementRef.$type == 'cmmn:Connection'){
+            if(out[i].businessObject.cmmnElementRef.targetRef.$type == type){
+                var id = out[i].businessObject.cmmnElementRef.targetRef.id;
                 var chainElement = elementRegistry.get(id);
                 return updateChainValues(chainElement, type, newValue, modeling, elementRegistry);
             }
         }
-    });
-    */
+    }
 
-    //an AlternativeCaseFileItem can have at most two outgoing connections
-    //one with another AlternativeCaseFileItem and one with an ErrorEventListener
-
-    //we need to use this approach in order to able to exploit recursion in order to know if
-    //during the updates of the chain we are over chainValue of 9
-
+	/*
     var out;
     if(element.outgoing[0]){
         out = element.outgoing[0];
@@ -457,6 +449,7 @@ function updateChainValues(element, type, value, modeling, elementRegistry){
             }
         }
     }
+    */
 
     if(value >= 9){
         return true;
