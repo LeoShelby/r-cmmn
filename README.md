@@ -23,6 +23,10 @@ npm run [linux|windows|macOS]
 ```
 In the case you get some errors, you can [manually bundling and running](./rcmmn_modules/guide_manual.md) the project.
 
+## Questionnaire
+https://forms.gle/4vHiqXfzYBbfuL9o8
+
+
 ## License
 
 Use under the terms of the [bpmn.io license](http://bpmn.io/license).
