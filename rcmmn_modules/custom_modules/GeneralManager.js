@@ -243,7 +243,8 @@ module.exports = GeneralManager;
 
 function isTaskType(connection){
     var res = getTargetDefinition(connection,'cmmn:Task') || getTargetDefinition(connection,'cmmn:HumanTask') ||
-                getTargetDefinition(connection,'cmmn:DecisionTask') || getTargetDefinition(connection,'cmmn:ProcessTask');
+                getTargetDefinition(connection,'cmmn:DecisionTask') || getTargetDefinition(connection,'cmmn:ProcessTask') ||
+                getTargetDefinition(connection,'cmmn:CaseTask');
     return res;
 }
 
