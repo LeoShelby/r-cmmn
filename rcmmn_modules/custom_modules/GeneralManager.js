@@ -96,7 +96,7 @@ function GeneralManager(eventBus, modeling, elementRegistry) {
                 }, connection);
             }
 
-            if(getTargetDefinition(connection,'cmmn:Task')){
+            if(isTaskType(connection)){
                 modeling.updateProperties(connection, {
                     name: "add label"
                 }, connection);
@@ -241,6 +241,12 @@ inherits(GeneralManager, CommandInterceptor);
 
 module.exports = GeneralManager;
 
+function isTaskType(connection){
+    var res = getTargetDefinition(connection,'cmmn:Task') || getTargetDefinition(connection,'cmmn:HumanTask') ||
+                getTargetDefinition(connection,'cmmn:DecisionTask') || getTargetDefinition(connection,'cmmn:ProcessTask');
+    return res;
+}
+
 function isConnection(element){
     return element.$type == 'cmmn:Connection';
 }
@@ -267,7 +273,6 @@ function getTargetDefinition(element, type){
     }
     return false;
 }
-
 
 function getConnection(connection) {
   connection = getBusinessObject(connection);
