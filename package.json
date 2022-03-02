@@ -45,7 +45,7 @@
     "eslint-plugin-bpmn-io": "^0.5.2",
     "execa": "^0.9.0",
     "jsondiffpatch": "^0.1.26",
-    "karma": "^4.1.0",
+    "karma": "^6.3.16",
     "karma-browserify": "^6.0.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.0.1",
